@@ -1,0 +1,63 @@
+<nodeTypes xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">   
+    <nodeType name="portlet:emailUserSettings" isMixin="false" hasOrderableChildNodes="false" primaryItemName="">
+        <supertypes>
+            <supertype>nt:base</supertype>
+        </supertypes>
+        <propertyDefinitions>		
+            <propertyDefinition name="portlet:protocol" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>imap</defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:host" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>hostname </defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:port" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>-1</defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:markMessagesAsRead" requiredType="Boolean" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>false</defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:username" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue></defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:password" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>	
+                <defaultValues>
+                    <defaultValue></defaultValue>
+                </defaultValues>			
+            </propertyDefinition>
+            <propertyDefinition name="portlet:inboxName" requiredType="String" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>	
+                <defaultValues>
+                    <defaultValue>INBOX</defaultValue>
+                </defaultValues>			
+            </propertyDefinition>
+            <propertyDefinition name="portlet:isRollUp" requiredType="Boolean" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>false</defaultValue>
+                </defaultValues>
+            </propertyDefinition>
+            <propertyDefinition name="portlet:focusOnPreview" requiredType="Boolean" autoCreated="true" mandatory="false" onParentVersion="COPY" protected="false" multiple="false">
+                <valueConstraints/>
+                <defaultValues>
+                    <defaultValue>false</defaultValue>
+                </defaultValues>
+            </propertyDefinition>		
+        </propertyDefinitions>
+    </nodeType>
+</nodeTypes>

@@ -1,20 +1,19 @@
 /**
- * Licensed to Apereo under one or more contributor license
- * agreements. See the NOTICE file distributed with this work
- * for additional information regarding copyright ownership.
- * Apereo licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file
- * except in compliance with the License.  You may obtain a
- * copy of the License at the following location:
+ * Licensed to Apereo under one or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information regarding copyright ownership. Apereo
+ * licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not use
+ * this file except in compliance with the License. You may obtain a copy of the License at the
+ * following location:
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.jasig.portlet.emailpreview.controller;
 
@@ -52,7 +51,7 @@ import org.springframework.web.portlet.ModelAndView;
 @Controller
 @RequestMapping("EDIT")
 public final class EditPreferencesController extends BaseEmailController {
-    
+
     private static final String UNCHANGED_PASSWORD = "uNch@ng3d.pswd!";
     private static final String CONFIG_FORM_KEY = "org.jasig.portlet.emailpreview.controller.CONFIG_FORM_KEY";
     private static final String FOCUS_ON_PREVIEW_PREFERENCE = "focusOnPreview";
@@ -69,9 +68,9 @@ public final class EditPreferencesController extends BaseEmailController {
 
         Map<String,Object> model = new HashMap<String,Object>();
         MailStoreConfiguration config = serviceBroker.getConfiguration(req);
-        
+
         // form
-        PortletSession session = req.getPortletSession(false);
+        PortletSession session = req.getPortletSession(true);
         MailStoreConfigurationForm form = (MailStoreConfigurationForm) session.getAttribute(CONFIG_FORM_KEY);
         if (form == null) {
             form = MailStoreConfigurationForm.create(config, req);
@@ -79,7 +78,7 @@ public final class EditPreferencesController extends BaseEmailController {
             session.removeAttribute(CONFIG_FORM_KEY);
         }
         model.put("form", form);
-        
+
         // Disable some config elements?
         model.put("disableProtocol", config.isReadOnly(req, MailPreferences.PROTOCOL));
         model.put("disableHost", config.isReadOnly(req, MailPreferences.HOST));
@@ -111,15 +110,15 @@ public final class EditPreferencesController extends BaseEmailController {
         if (form.getAdditionalProperties().containsKey(MailPreferences.PASSWORD.getKey())) {
             model.put("unchangedPassword", UNCHANGED_PASSWORD);
         }
-        
+
         // Make the PortletRequest.USER_INFO available
         model.put("userInfo", req.getAttribute(PortletRequest.USER_INFO));
-        
+
         // Pass the errorMessage, if present
         if (req.getParameter("errorMessage") != null) {
             model.put("errorMessage", req.getParameter("errorMessage"));
         }
-        
+
         return new ModelAndView("editPreferences", model);
 
     }
@@ -136,9 +135,9 @@ public final class EditPreferencesController extends BaseEmailController {
 
     @RequestMapping(params = "action=updatePreferences")
     public void updatePreferences(ActionRequest req, ActionResponse res) throws PortletModeException {
-        
+
         /*
-         * Preferences
+     * Preferences
          */
 
         PortletPreferences prefs = req.getPreferences();
@@ -159,7 +158,7 @@ public final class EditPreferencesController extends BaseEmailController {
                 }
             }
         }
-        
+
         if (!prefs.isReadOnly(FOCUS_ON_PREVIEW_PREFERENCE)) {
             String focusOnPreviewParam = req.getParameter(FOCUS_ON_PREVIEW_PREFERENCE);
             String focusOnPreviewSelection = focusOnPreviewParam != null
@@ -181,7 +180,7 @@ public final class EditPreferencesController extends BaseEmailController {
         }
 
         /*
-         * Mail Config
+     * Mail Config
          */
         
         MailStoreConfiguration config = serviceBroker.getConfiguration(req);
@@ -205,7 +204,7 @@ public final class EditPreferencesController extends BaseEmailController {
                 err = "Server Protocol is required";
             }
         }
-        
+
         if (!config.isReadOnly(req, MailPreferences.HOST)) {
             String host = req.getParameter(MailPreferences.HOST.getKey());
             host = host != null ? host.trim() : "";
@@ -233,16 +232,16 @@ public final class EditPreferencesController extends BaseEmailController {
                 err = "Server Port is required";
             }
         }
-        
+
         if (!config.isReadOnly(req, MailPreferences.MARK_MESSAGES_AS_READ)) {
             String markMessagesAsRead = req.getParameter(MailPreferences.MARK_MESSAGES_AS_READ.getKey());
             log.debug("Received the following user input for markMessagesAsRead: {}", markMessagesAsRead);
             form.setMarkMessagesAsRead("on".equalsIgnoreCase(markMessagesAsRead));
         }
-        
+
         if (!config.isReadOnly(req, MailPreferences.INBOX_NAME)) {
             String inboxName = req.getParameter(MailPreferences.INBOX_NAME.getKey());
-            
+
             if (StringUtils.isBlank(inboxName) && StringUtils.isBlank(err)) {
                 err = "Inbox folder name is required";
             } else {
@@ -261,12 +260,12 @@ public final class EditPreferencesController extends BaseEmailController {
             }
         }
 
-        // ToDo:  Support for PortletPreferences auth is a 
-        // bit hackish;  look for an opportunity to refactor 
+        // ToDo:  Support for PortletPreferences auth is a
+        // bit hackish;  look for an opportunity to refactor
         // toward abstractions.
         String ppPassword = null;  // default
         if (PortletPreferencesCredentialsAuthenticationService.KEY.equals(form.getAuthenticationServiceKey())) {
-            
+
             // Update username
             if (!config.isReadOnly(req, MailPreferences.MAIL_ACCOUNT)) {
                 String mailAccount = req.getParameter(MailPreferences.MAIL_ACCOUNT.getKey());
@@ -299,7 +298,7 @@ public final class EditPreferencesController extends BaseEmailController {
             }
 
         }
-        
+
         // Proceed if there were no problems
         if (err == null) {
 
@@ -310,7 +309,7 @@ public final class EditPreferencesController extends BaseEmailController {
             config.setMarkMessagesAsRead(form.getMarkMessagesAsRead());
             config.setAuthenticationServiceKey(form.getAuthenticationServiceKey());
             config.setInboxFolderName(form.getInboxFolderName());
-            
+
             // username/password
             if (PortletPreferencesCredentialsAuthenticationService.KEY.equals(form.getAuthenticationServiceKey())) {
                 Attribute username = form.getAdditionalProperties().get(MailPreferences.MAIL_ACCOUNT.getKey());
@@ -324,7 +323,7 @@ public final class EditPreferencesController extends BaseEmailController {
                 config.getAdditionalProperties().remove(MailPreferences.MAIL_ACCOUNT.getKey());
                 config.getAdditionalProperties().remove(MailPreferences.PASSWORD.getKey());
             }
-            
+
             serviceBroker.saveConfiguration(req, config);
             req.getPortletSession().setAttribute(EmailAccountSummaryController.FORCE_REFRESH_PARAMETER, Boolean .TRUE);
             res.setPortletMode(PortletMode.VIEW);
@@ -344,5 +343,5 @@ public final class EditPreferencesController extends BaseEmailController {
     public void setAuthenticationServiceRegistry(IAuthenticationServiceRegistry authServiceRegistry) {
         this.authServiceRegistry = authServiceRegistry;
     }
-    
+
 }
