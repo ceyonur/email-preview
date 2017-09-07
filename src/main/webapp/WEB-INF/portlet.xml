@@ -40,7 +40,7 @@
 
         <init-param>
             <name>namespace</name>
-            <value>email-preview-portlet</value>
+            <value>email-preview</value>
         </init-param>
 
         <init-param>
@@ -54,7 +54,6 @@
             <portlet-mode>view</portlet-mode>
             <portlet-mode>edit</portlet-mode>
             <portlet-mode>help</portlet-mode>
-            <portlet-mode>config</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
         <portlet-info>
@@ -70,11 +69,7 @@
                 screen will appear informing the user.  This preference defines 
                 the title of that screen.
             -->
-            <preference>
-                <name>welcomeTitle</name>
-                <value>Welcome to Email Preview</value>
-            </preference>
-
+  
             <!-- 
                 Additional instructions, if any, that should be displayed on the 
                 welcome screen.  This preference supports arbitrary HTML.
@@ -82,10 +77,6 @@
                 NOTE:  Some simple, general instructions will appear even if 
                 this preference is blank.
             -->
-            <preference>
-                <name>welcomeInstructions</name>
-                <value></value>
-            </preference>
 
             <!-- 
                 Determines which screen appears first when the portlet first 
@@ -106,7 +97,8 @@
             -->
             <preference>
                 <name>focusOnPreview</name>
-                <value>true</value>
+                <value>false</value>
+                <read-only>true</read-only>
             </preference>
 
             <!-- 
@@ -179,13 +171,12 @@
                 <value>INBOX</value>
                 <read-only>false</read-only>
             </preference>
-
             <!-- 
                 List of AuthenticationService(s) available for use with the 
                 portlet.  Two service implementations come with the portlet 
                 codebase (also custom implementations are possible):
                 
-                  - 'portletPreferences' (Users enter credentials, which are 
+                  - 'preferences' (Users enter credentials, which are 
                     encrypted and stored)
                   - 'cachedPassword' (The portlet receives credentials from the 
                     portal - configure 'cached' security in uPortal)
@@ -193,8 +184,24 @@
             <preference>
                 <name>allowableAuthenticationServiceKeys</name>
                 <value>portletPreferences</value>
+                <read-only>true</read-only>
+            </preference>
+            <preference>
+                <name>authenticationServiceKey</name>
+                <value>portletPreferences</value>
+                <read-only>true</read-only>
             </preference>
             
+            <preference> 
+                <name>welcomeTitle</name>  
+                <value>Email Preview</value>
+            </preference>
+            <preference> 
+                <name>welcomeInstructions</name>  
+                <value>
+            Welcome
+                </value>
+            </preference>
             
             <!-- 
                 When the help mode of the portlet is selected, the following title is displayed
@@ -219,15 +226,16 @@
                 </value>
             </preference>   
 
-			<!-- Enable the preview mode to display the actual content of an email message -->
-			<preference>
+            <!-- Enable the preview mode to display the actual content of an email message -->
+            <preference>
                 <name>allowRenderingEmailContent</name>
                 <value>true</value>
+                <read-only>true</read-only>
             </preference>
             <!-- Portal context path for URL generation -->
             <preference>
                 <name>portal.context.path</name>
-                <value>uPortal</value>
+                <value>exo</value>
             </preference>
             <!-- Portlet fname for URL generation -->
             <preference>
@@ -252,7 +260,20 @@
             <!-- Source text to display in Notification -->
             <preference>
                 <name>notification.entry.source</name>
-                <value>Email Preview</value>
+                <value>email-preview</value>
+            </preference>
+            <preference> 
+                <name>connectionTimeout</name>  
+                <value>-1</value>
+            </preference>
+            <preference> 
+                <name>linkServiceKey</name>  
+                <value>default</value>
+              	<read-only>true</read-only>                
+            </preference>
+            <preference> 
+                <name>timeout</name>  
+                <value>-1</value>
             </preference>
         </portlet-preferences>
         <supported-processing-event>
@@ -280,7 +301,7 @@
 
         <init-param>
             <name>namespace</name>
-            <value>demo-email-preview-portlet</value>
+            <value>demo-email-preview</value>
         </init-param>
 
         <init-param>
@@ -405,8 +426,8 @@
     </user-attribute>
 
     <!-- Enable the following user attribute for uPortal to obtain and populate a CAS proxy tickets for email authentication.
-         uPortal itself must also be configured to obtain CAS proxy tickets from CAS for the target email system (see the uPortal
-         manual).  CAS must also be configured to grant CAS proxy tickets from uPortal to the target email system (see the CAS manual). -->
+    uPortal itself must also be configured to obtain CAS proxy tickets from CAS for the target email system (see the uPortal
+    manual).  CAS must also be configured to grant CAS proxy tickets from uPortal to the target email system (see the CAS manual). -->
     <!--
     <user-attribute>
         <description>casProxyTicket</description>
