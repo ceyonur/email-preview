@@ -49,14 +49,14 @@ public class EmailMessageController extends BaseEmailController {
 
     @ResourceMapping(value = "emailMessage")
     public ModelAndView showMessage(ResourceRequest req, ResourceResponse res,
-            @RequestParam("messageId") String messageId){
+            @RequestParam("messageId") String messageId,
+            @RequestParam("folderName") String folderName){
 
         Map<String, Object> model = new HashMap<String, Object>();
 
         try {
-
             // Get current user's account information
-            EmailMessage message = getEmailAccountService(req).getMessage(req, messageId);
+            EmailMessage message = getEmailAccountService(req).getMessage(req, messageId,folderName);
             
             /*
              * A bit of after-market work on messages in certain circumstances

@@ -53,7 +53,7 @@ public interface IMailAccountDao<T extends Folder> {
      * @param storeConfig mail configuration
      * @return message
      */
-    EmailMessage getMessage(MailStoreConfiguration storeConfig, String uuid);
+    EmailMessage getMessage(MailStoreConfiguration storeConfig, String uuid, String folderName);
 
     /**
      * Delete the list of messages from Exchange.

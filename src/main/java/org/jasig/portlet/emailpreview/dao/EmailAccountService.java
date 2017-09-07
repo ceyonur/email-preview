@@ -173,7 +173,7 @@ public class EmailAccountService implements IEmailAccountService {
     }
 
     @Override
-    public EmailMessage getMessage(PortletRequest req, String messageId) {
+    public EmailMessage getMessage(PortletRequest req, String messageId, String folderName) {
         MailStoreConfiguration config = initializeEnvironment(req);
         if (config.getMarkMessagesAsRead()) {
             log.debug("Getting message - marking message as read (may already be marked as read");
@@ -182,7 +182,7 @@ public class EmailAccountService implements IEmailAccountService {
             clearInboxCache(config);
         }
         log.debug("Getting message id={}", messageId);
-        return dao.getMessage(config, messageId);
+        return dao.getMessage(config, messageId, folderName);
     }
 
     @Override
@@ -209,6 +209,9 @@ public class EmailAccountService implements IEmailAccountService {
     @Override
     public boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean read) {
         MailStoreConfiguration config = initializeEnvironment(req);
+        System.out.println("messageIds:" + messageIds);
+        System.out.println("messageIds:" + messageIds);
+
         boolean result = dao.setMessageReadStatus(config, messageIds, read);
         // Account summary is now invalid so clear it
         clearInboxCache(config);

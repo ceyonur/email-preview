@@ -257,7 +257,7 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
     }
 
     @Override
-    public EmailMessage getMessage(MailStoreConfiguration config, String messageId) {
+    public EmailMessage getMessage(MailStoreConfiguration config, String messageId, String folderName) {
         Authenticator auth = credentialsProvider.getAuthenticator();
         Folder inbox = null;
         try {
@@ -265,8 +265,10 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
 
             // Retrieve user's inbox
             Session session = openMailSession(config, auth);
-            inbox = getUserInbox(session, config.getInboxFolderName());
+            inbox = getUserInbox(session, folderName);
             inbox.open(mode);
+            System.out.println("inbox name: " + inbox.getFullName());
+            System.out.println("inbox instance of: " + (inbox instanceof UIDFolder));
 
             Message message;
             if (inbox instanceof UIDFolder) {

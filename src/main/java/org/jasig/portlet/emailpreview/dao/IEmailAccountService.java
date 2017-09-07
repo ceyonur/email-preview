@@ -58,7 +58,7 @@ public interface IEmailAccountService {
      * @param messageId messageId
      * @return
      */
-    EmailMessage getMessage(PortletRequest req, String messageId);
+    EmailMessage getMessage(PortletRequest req, String messageId, String folderName);
 
     /**
      * Delete and expunge the specified massages from the store.  Supported for
