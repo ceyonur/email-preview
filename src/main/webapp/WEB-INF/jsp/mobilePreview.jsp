@@ -191,7 +191,8 @@
             jsErrorMessages: jsErrorMessages,
             jsMessages: jsMessages,
             allowRenderingEmailContent: <c:out value="${allowRenderingEmailContent ? 'true' : 'false'}"/>,
-            markMessagesAsRead: <c:out value="${markMessagesAsRead ? 'true' : 'false'}"/>
+            markMessagesAsRead: <c:out value="${markMessagesAsRead ? 'true' : 'false'}"/>,
+            folderName: "${inboxName}"
         };
         // Initialize the display asynchronously
         setTimeout(function() {

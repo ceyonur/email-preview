@@ -158,8 +158,8 @@ var jasig = jasig || {};
     };
 
     var getEmailFunction = function(that) {
-        return function(start, size, sortKey, sortDir, folderName) {
-            return getEmail(that, start, size, sortKey, sortDir, folderName);
+        return function(start, size, sortKey, sortDir) {
+            return getEmail(that, start, size, sortKey, sortDir, that.options.folderName);
         };
     };
 
@@ -168,7 +168,7 @@ var jasig = jasig || {};
         $.ajax({
             url: that.options.messageUrl,
             async: false,
-            data: { messageId: messageId },
+            data: { messageId: messageId, folderName: that.options.folderName},
             type: 'POST',
             dataType: "json",
             success: function(data) {
@@ -181,7 +181,8 @@ var jasig = jasig || {};
                 showErrorMessage(that, request.status);
             }
         });
-
+        console.log(messageId)
+        console.log(message)
         return message;
     };
 
@@ -354,7 +355,7 @@ var jasig = jasig || {};
                 },
                 listeners: that.options.listeners
             },
-            dataFunction: getEmailFunction(that, that.options.folderName),
+            dataFunction: getEmailFunction(that),
             dataLengthFunction: function() { return account.accountSummary ? account.accountSummary.totalMessageCount : 0; }
         };
 
@@ -497,9 +498,8 @@ var jasig = jasig || {};
             that.locate("allFolders").ready(function(){ getFoldersList();});
             that.locate("allFolders").change(
             	function(){
-                    clearCache = "true";
-	            	getEmail(that, 0, that.options.batchSize, undefined, undefined,that.locate("allFolders").val());
-	            	location.reload();
+            	      that.options.folderName = that.locate("allFolders").val();
+            	      that.refresh();
             	});             
             that.locate("inboxLink").attr("href", account.inboxUrl);
             //Mobile view          

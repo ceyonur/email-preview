@@ -25,6 +25,7 @@
     <script src="<rs:resourceURL value="/rs/jquery/1.8.3/jquery-1.8.3.min.js"/>" type="text/javascript"></script>
     <script src="<rs:resourceURL value="/rs/jqueryui/1.7.2/jquery-ui-1.7.2-v2.min.js"/>" type="text/javascript"></script>
 </c:if>
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/email.min.css"/>"/>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/email-preview.css"/>"/>
 
 
@@ -33,16 +34,12 @@
 <portlet:actionURL var="showPreviewUrl">
     <portlet:param name="action" value="showPreview"/>
 </portlet:actionURL>
-<portlet:actionURL var="showPreviewUrlMaximized" windowState="maximized">
-    <portlet:param name="action" value="showPreview"/>
-</portlet:actionURL>
-<c:set var="focusOnPreview" value="${renderRequest.preferences.map['focusOnPreview'][0]}"/>
 
 <div class="container-fluid email-container">
     <div id="${n}splash" class="emailSplash email-preview-rollup">
         <div class="jumbotron">
             <h1><c:out value="${emailAddress}"/></h1>
-            <div class="row">
+            <div >
                 <div class="col-xs-2">
                     <div class="email-animation">
                         <i class="fa fa-envelope-o fa-5x"></i>
@@ -55,24 +52,23 @@
                         <p class="unreadContainer" style="display: none;">
                             <spring:message code="rollup.summary.preLink"/> <strong><span class="unreadCount"></span> <spring:message code="rollup.summary.linkText"/></strong> <spring:message code="rollup.summary.postLinkPreTotal"/> <span class="totalCount"></span> <spring:message code="rollup.summary.postTotal"/><br />
                             <span class="stats"><strong><spring:message code="common.quota"/>: </strong><span class="email-quota-usage"></span> / <span class="email-quota-limit"></span><br /></span>
-                                <c:if test="${not empty inboxUrl}">
-                                    &bull; <strong><a href="${inboxUrl}" target="_blank" title="<spring:message code="rollup.summary.inboxLink.tooltip"/>"><spring:message code="rollup.summary.inboxLink"/></a></strong> <spring:message code="rollup.summary.inboxPostLink"/><br />
-                                </c:if>
-                            &bull; <strong><a href="<c:out value="${focusOnPreview == 'true' ?  showPreviewUrlMaximized : showPreviewUrl}"/>" title="<spring:message code="rollup.summary.previewLink.tooltip"/>"><spring:message code="rollup.summary.previewLink"/></a></strong> <spring:message code="rollup.summary.previewPostLink"/>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div >
                 <div class="col-xs-offset-2 col-xs-10">
                     <c:if test="${not empty inboxUrl}">
                         <a href="${inboxUrl}" class="btn btn-success" target="_blank" title="<spring:message code="rollup.inbox.linkText.tooltip"/>">
                                 <i class="fa fa-link"></i>&nbsp;<spring:message code="rollup.inbox.linkText"/>
                         </a>
                     </c:if>
+                     <a href="${showPreviewUrl}" class="btn btn-success" title="rollup.summary.previewLink.tooltip"/>
+                                <i class="fa fa-link"></i>&nbsp;<spring:message code="rollup.summary.previewLink"/>
+                        </a>
                     <c:if test="${supportsEdit}">
-                        <a href="<portlet:renderURL portletMode="EDIT"/>" class="btn btn-info" title="<spring:message code="rollup.inbox.preferences.tooltip"/>">
+                        <a href="<portlet:renderURL portletMode="EDIT"/>" class="btn btn-info" title="<spring:message code="rollup.summary.previewLink"/>">
                         <i class="fa fa-gears"></i>&nbsp;<spring:message code="rollup.inbox.preferences"/></a>
                     </c:if>
                     <c:if test="${supportsHelp}">

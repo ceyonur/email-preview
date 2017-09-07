@@ -26,17 +26,17 @@
     <script src="<rs:resourceURL value='/rs/jqueryui/1.7.2/jquery-ui-1.7.2-v2.min.js'/>" type="text/javascript"></script>
 </c:if>
 <script src="<rs:resourceURL value='/rs/fluid/1.1.3/js/fluid-all-1.1.3.min.js'/>" type="text/javascript"></script>
-<link type="text/css" rel="stylesheet" href="<c:url value="/css/email-preview.css"/>"/>
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/email.min.css"/>"/>
 
 <c:set var="n"><portlet:namespace/></c:set>
 
 <div class="container-fluid">
 
-    <div class="row">
+    <div>
         <div class="col-sm-8">
             <form id="plt-email-form" class="form-horizontal" action="<portlet:actionURL><portlet:param name="action" value="updatePreferences"/></portlet:actionURL>" method="POST">
 
-                <div class="row">
+                <div >
                     <div class="col-sm-offset-4 col-sm-8">
                         <h2><spring:message code="editPreferences.emailSettings.title"/></h2>
                     </div>
@@ -57,7 +57,7 @@
                                 <input type="text" name="protocol" value="${form.protocol}"/>
                         </c:when>
                         <c:otherwise>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-4 control-label">
                                     <spring:message code="editPreferences.emailSettings.serverProtocol"/>
                                 </label>
@@ -71,7 +71,7 @@
                             </div> <!-- end .form-group div -->
                         </c:otherwise>
                     </c:choose>
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-4 control-label">
                             <spring:message code="editPreferences.emailSettings.serverName"/>
                         </label>
@@ -79,7 +79,7 @@
                             <input type="text" name="host" id="plt-email-input-server" class="form-control" title="<spring:message code="editPreferences.emailSettings.serverName.tooltip"/>" value="<c:out value="${form.host}"/>"/>
                         </div>
                     </div> <!-- end .form-group div -->
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-4 control-label">
                             <spring:message code="editPreferences.emailSettings.serverPort"/>
                         </label>
@@ -87,7 +87,7 @@
                             <input type="text" name="port" id="plt-email-input-port" class="form-control" title="<spring:message code="editPreferences.emailSettings.serverPort.toolTip"/>" value="<c:out value="${form.port}"/>"/>
                         </div>
                     </div> <!-- end .form-group div -->
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-4 control-label">
                             <spring:message code="editPreferences.emailSettings.inboxFolderName"/>
                         </label>
@@ -119,7 +119,7 @@
 
                 <!-- Show radio buttons if multiple authenticationServices are in use -->
                 <c:if test="${fn:length(authenticationServices) > 1}">
-                    <div class="fieldset plt-email-fieldset-verify form-group">
+                    <div class="fieldset plt-email-fieldset-verify form-group row">
                         <c:if test="${authenticationServices.cachedPassword ne null}">
                             <div class="col-sm-offset-4 col-sm-8">
                                 <div class="checkbox">
@@ -145,7 +145,7 @@
                     <!-- Show these fields if the authService is currently 'portletPreferences' -->
                     <c:set var="displayStyle" value="${form.authenticationServiceKey eq 'portletPreferences' ? '' : 'display: none;'}" />
                     <div class="fieldset plt-email-fieldset-authparams plt-email-fieldset-ppauth" style="${displayStyle}">
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-sm-4 control-label">
                                 <spring:message code="editPreferences.emailSettings.portletPreferencesAuthN.emailAddress"/>
                             </label>
@@ -157,7 +157,7 @@
                                     <span class="plt-email-address-suffix"><c:out value="${form.usernameSuffix}"/></span>
                             </div>
                         </div> <!-- end .form-group div -->
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-sm-4 control-label">
                                 <spring:message code="editPreferences.emailSettings.portletPreferencesAuthN.password"/>
                             </label>
@@ -168,14 +168,14 @@
                     </div> <!-- end .fieldset div -->
                 </c:if>
 
-                <div class="row">
+                <div >
                     <div class="col-sm-offset-4 col-sm-8">
                         <h2><spring:message code="editPreferences.preferences.title"/></h2>
                     </div>
                 </div>
 
                 <div class="fieldset plt-email-fieldset-settings">
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-4 control-label">
                             <spring:message code="editPreferences.preferences.show"/>
                         </label>
@@ -188,19 +188,10 @@
                         <div class="col-sm-2">
                             <p class="text-left"><spring:message code="editPreferences.preferences.onLogin"/></p>
                         </div>
-                    </div> <!-- end .form-group div -->
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-8">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="focusOnPreview" value="true"<c:if test="${renderRequest.preferences.map['focusOnPreview'][0] eq 'true'}"> checked="checked"</c:if>/> <spring:message code="editPreferences.preferences.focusOnPreview.tooltip"/>
-                                </label>
-                            </div>
-                        </div>
-                    </div> <!-- end .form-group div -->
+                    </div> <!-- end .form-group div -->                   
                 </div> <!-- end .fieldset div -->
 
-                <div class="row">
+                <div >
                     <div class="col-sm-offset-4 col-sm-8">
                         <button type="submit" name="submit_email"id="plt-email-input-submit" class="btn btn-primary">
                             <i class="fa fa-save"></i> <spring:message code="editPreferences.buttonGroup.saveSettings"/>
