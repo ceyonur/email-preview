@@ -177,7 +177,7 @@ public class EmailAccountService implements IEmailAccountService {
         MailStoreConfiguration config = initializeEnvironment(req);
         if (config.getMarkMessagesAsRead()) {
             log.debug("Getting message - marking message as read (may already be marked as read");
-            setSeenFlag(req, new String[] {messageId}, true);
+            setSeenFlag(req, new String[] {messageId}, true, folderName);
             // Account summary is now invalid so clear it
             clearInboxCache(config);
         }
@@ -186,12 +186,12 @@ public class EmailAccountService implements IEmailAccountService {
     }
 
     @Override
-    public boolean deleteMessages(PortletRequest req, String[] messageIds) {
+    public boolean deleteMessages(PortletRequest req, String[] messageIds, String folderName) {
         MailStoreConfiguration config = initializeEnvironment(req);
         if (log.isDebugEnabled()) {
             log.debug("Deleting messages {}", convertIdsToString(messageIds));
         }
-        boolean wasDeleted = dao.deleteMessages(config, messageIds);
+        boolean wasDeleted = dao.deleteMessages(config, messageIds, folderName);
         // Account summary is now invalid so clear it
         clearInboxCache(config);
         return wasDeleted;
@@ -207,12 +207,10 @@ public class EmailAccountService implements IEmailAccountService {
     }
 
     @Override
-    public boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean read) {
+    public boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean read, String folderName) {
         MailStoreConfiguration config = initializeEnvironment(req);
-        System.out.println("messageIds:" + messageIds);
-        System.out.println("messageIds:" + messageIds);
 
-        boolean result = dao.setMessageReadStatus(config, messageIds, read);
+        boolean result = dao.setMessageReadStatus(config, messageIds, read, folderName);
         // Account summary is now invalid so clear it
         clearInboxCache(config);
         return result;

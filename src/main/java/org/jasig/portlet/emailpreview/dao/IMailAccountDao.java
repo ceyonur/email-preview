@@ -60,7 +60,7 @@ public interface IMailAccountDao<T extends Folder> {
      * @param uuids uuids if the messages to delete
      * @return True if messages were deleted
      */
-    boolean deleteMessages(MailStoreConfiguration storeConfig, String[] uuids);
+    boolean deleteMessages(MailStoreConfiguration storeConfig, String[] uuids, String folderName);
 
     /**
      * Sets the isRead status of the indicated messages to the indicated value.
@@ -68,7 +68,7 @@ public interface IMailAccountDao<T extends Folder> {
      * @param read true to indicate message has been read
      * @return true if read status was successfully set
      */
-    boolean setMessageReadStatus(MailStoreConfiguration storeConfig, String[] uuids, boolean read);
+    boolean setMessageReadStatus(MailStoreConfiguration storeConfig, String[] uuids, boolean read, String folderName);
 
     /**
      * Gets all the user's inbox folders.

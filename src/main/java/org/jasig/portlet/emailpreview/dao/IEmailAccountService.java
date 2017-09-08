@@ -69,7 +69,7 @@ public interface IEmailAccountService {
      * @param messageIds List of messageIds to delete
      * @return Success or failure
      */
-    boolean deleteMessages(PortletRequest req, String[] messageIds);
+    boolean deleteMessages(PortletRequest req, String[] messageIds, String folderName);
 
     /**
      * Switch the value of the SEEN flag for the specified messages.  Supported 
@@ -82,7 +82,7 @@ public interface IEmailAccountService {
      * @param read The new value of the seen flag
      * @return Success or failure
      */
-    boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean read);
+    boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean read, String folderName);
 
     List<Folder> getAllUserInboxFolders(PortletRequest req);
 }

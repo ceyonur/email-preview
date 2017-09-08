@@ -402,7 +402,7 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
     // ----------------------------------------------------------
 
     @Override
-    public EmailMessage getMessage(MailStoreConfiguration storeConfig, String uuid) {
+    public EmailMessage getMessage(MailStoreConfiguration storeConfig, String uuid, String _folderName) {
 
         ItemInfoResponseMessageType response = (ItemInfoResponseMessageType)
                 sendMessageAndExtractSingleResponse(
@@ -547,7 +547,7 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
     // ----------------------------------------------------------
 
     @Override
-    public boolean deleteMessages(MailStoreConfiguration storeConfig, String[] uuids) {
+    public boolean deleteMessages(MailStoreConfiguration storeConfig, String[] uuids, String _folderName) {
         sendMessageAndExtractSingleResponse(createDeleteItemsSoapMessage(uuids), DELETE_ITEM_SOAP_ACTION, storeConfig);
         return true;
     }
@@ -572,7 +572,7 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
     // ----------------------------------------------------------
 
     @Override
-    public boolean setMessageReadStatus(MailStoreConfiguration storeConfig, String[] uuids, boolean read) {
+    public boolean setMessageReadStatus(MailStoreConfiguration storeConfig, String[] uuids, boolean read, String _folderName) {
         UpdateItemResponseMessageType soapResponse = (UpdateItemResponseMessageType)
                 sendMessageAndExtractSingleResponse(
                         createUpdateItemSoapMessage(uuids, read, storeConfig),

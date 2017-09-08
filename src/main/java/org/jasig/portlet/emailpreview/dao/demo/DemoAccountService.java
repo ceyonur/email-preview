@@ -98,7 +98,7 @@ public final class DemoAccountService implements IEmailAccountService {
 
     }
 
-    public EmailMessage getMessage(PortletRequest req, String messageId) {
+    public EmailMessage getMessage(PortletRequest req, String messageId, String folderName) {
 
         PortletSession session = req.getPortletSession();
         AccountSummary summary = (AccountSummary) session.getAttribute(ACCOUNT_SUMMARY_KEY);
@@ -142,7 +142,7 @@ public final class DemoAccountService implements IEmailAccountService {
 
     }
 
-    public boolean deleteMessages(PortletRequest req, String[] messageIds) {
+    public boolean deleteMessages(PortletRequest req, String[] messageIds,String folderName) {
 
         List<String> excluded = Arrays.asList(messageIds);
 
@@ -169,7 +169,7 @@ public final class DemoAccountService implements IEmailAccountService {
 
     }
 
-    public boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean seenValue) {
+    public boolean setSeenFlag(PortletRequest req, String[] messageIds, boolean seenValue,String folderName) {
 
         List<String> changed = Arrays.asList(messageIds);
 

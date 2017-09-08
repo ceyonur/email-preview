@@ -86,7 +86,8 @@ public class EmailMessageController extends BaseEmailController {
 
     @ResourceMapping(value = "deleteMessages")
     public ModelAndView deleteMessages(ResourceRequest req, ResourceResponse res,
-                @RequestParam(value="selectMessage", required=false) String[] uids) {
+                @RequestParam(value="selectMessage", required=false) String[] uids,
+                @RequestParam(value="folderName") String folderName) {
 
         Map<String, Object> model = new HashMap<String, Object>();
 
@@ -99,7 +100,7 @@ public class EmailMessageController extends BaseEmailController {
             }
 
             if (uids != null && uids.length != 0) {
-                getEmailAccountService(req).deleteMessages(req, uids);
+                getEmailAccountService(req).deleteMessages(req, uids, folderName);
             }
 
             model.put("success", "success");
@@ -115,7 +116,8 @@ public class EmailMessageController extends BaseEmailController {
     @ResourceMapping(value = "toggleSeen")
     public ModelAndView toggleSeen(ResourceRequest req, ResourceResponse res,
                 @RequestParam(value="selectMessage", required=false) String[] messageIds,
-                @RequestParam("seenValue") boolean seenValue) {
+                @RequestParam("seenValue") boolean seenValue,
+                @RequestParam("folderName") String folderName) {
 
         Map<String, Object> model = new HashMap<String, Object>();
 
@@ -125,7 +127,7 @@ public class EmailMessageController extends BaseEmailController {
 
                 // Opportunity for improvement:  respond to return value 
                 // of 'false' with some user-facing message 
-                getEmailAccountService(req).setSeenFlag(req, messageIds, seenValue);
+                getEmailAccountService(req).setSeenFlag(req, messageIds, seenValue,folderName);
 
             }
 

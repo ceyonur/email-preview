@@ -267,9 +267,6 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
             Session session = openMailSession(config, auth);
             inbox = getUserInbox(session, folderName);
             inbox.open(mode);
-            System.out.println("inbox name: " + inbox.getFullName());
-            System.out.println("inbox instance of: " + (inbox instanceof UIDFolder));
-
             Message message;
             if (inbox instanceof UIDFolder) {
                 message = ((UIDFolder)inbox).getMessageByUID(Long.parseLong(messageId));
@@ -541,14 +538,14 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
     }
 
     @Override
-    public boolean deleteMessages(MailStoreConfiguration config, String[] uuids) {
+    public boolean deleteMessages(MailStoreConfiguration config, String[] uuids, String folderName) {
         Authenticator auth = credentialsProvider.getAuthenticator();
         Folder inbox = null;
         try {
 
             // Retrieve user's inbox
             Session session = openMailSession(config, auth);
-            inbox = getUserInbox(session, config.getInboxFolderName());
+            inbox = getUserInbox(session, folderName);
 
             // Verify that we can even perform this operation
             if (!(inbox instanceof UIDFolder)) {
@@ -593,13 +590,13 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
     }
 
     @Override
-    public boolean setMessageReadStatus(MailStoreConfiguration config, String[] uuids, boolean read) {
+    public boolean setMessageReadStatus(MailStoreConfiguration config, String[] uuids, boolean read, String folderName) {
         Authenticator auth = credentialsProvider.getAuthenticator();
         Folder inbox = null;
         try {
             // Retrieve user's inbox
             Session session = openMailSession(config, auth);
-            inbox = getUserInbox(session, config.getInboxFolderName());
+            inbox = getUserInbox(session, folderName);
 
             // Verify that we can even perform this operation log info if it isn't capable of operation
             if (!(inbox instanceof UIDFolder)) {
@@ -611,6 +608,11 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
             inbox.open(Folder.READ_WRITE);
 
             Message[] msgs = ((UIDFolder) inbox).getMessagesByUID(getMessageUidsAsLong(uuids));
+            
+            for(int i = 0; i < msgs.length;i++){
+            	System.out.println(msgs[i].getSubject());
+            }
+
             inbox.setFlags(msgs, new Flags(Flag.SEEN), read);
 
             return true;  // Indicate success

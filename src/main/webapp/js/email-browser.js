@@ -375,6 +375,7 @@ var jasig = jasig || {};
 
             var doDelete = function(data) {
                 showLoadingMessage(that);
+                data.push({name:'folderName', value:that.options.folderName});
                 var ajaxOptions = {
                     url: options.deleteUrl,
                     type: "POST",
@@ -396,6 +397,7 @@ var jasig = jasig || {};
             var doToggleSeen = function(data, seenValue) {
                 showLoadingMessage(that);
                 data.push({name:'seenValue', value:seenValue});
+                data.push({name:'folderName', value:that.options.folderName});
                 var ajaxOptions = {
                     url: options.toggleSeenUrl,
                     type: "POST",
