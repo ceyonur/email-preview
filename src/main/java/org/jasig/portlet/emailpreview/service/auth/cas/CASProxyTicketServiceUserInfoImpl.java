@@ -22,15 +22,16 @@ import java.util.Map;
 
 import javax.portlet.PortletRequest;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.apache.commons.logging.LogFactory;
+import org.exoplatform.services.log.ExoLogger;
 import org.jasig.cas.client.validation.Assertion;
 import org.jasig.cas.client.validation.TicketValidationException;
 import org.jasig.cas.client.validation.TicketValidator;
 
 public class CASProxyTicketServiceUserInfoImpl implements ICASProxyTicketService {
 	
-	protected final Log log = LogFactory.getLog(this.getClass());
+	protected final Log log = ExoLogger.getLogger(this.getClass());
 
 	private String serviceUrl;
 	

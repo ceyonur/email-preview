@@ -28,7 +28,7 @@ import javax.jcr.Node;
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.portal.application.PortalRequestContext;
@@ -54,6 +54,7 @@ import org.exoplatform.forum.common.jcr.PropertyReader;
 import org.exoplatform.commons.api.settings.SettingService;
 import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.ext.hierarchy.NodeHierarchyCreator;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.security.ConversationState;
 import org.exoplatform.container.ExoContainerContext;
 
@@ -72,7 +73,7 @@ public class SimpleServiceBroker implements IServiceBroker {
 	private IStringEncryptionService stringEncryptionService;
 	private Map<String, IEmailAccountService> services;
 	private Set<String> protocols;
-	private final Log log = LogFactory.getLog(this.getClass());
+	private final Log log = ExoLogger.getLogger(this.getClass());
 
 	// Add items to this list if they are enumerated specifically in the code
 	// for getConfiguration and saveConfiguration

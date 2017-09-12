@@ -26,8 +26,8 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +46,7 @@ public class AjaxUpdatePageSizeController {
     
     private static final String STATUS_KEY = "success";
 
-    private final Log log = LogFactory.getLog(this.getClass());
+    private final Log log = ExoLogger.getLogger(this.getClass());
 
     @ResourceMapping(value = "updatePageSize")
     public ModelAndView updatePageSize(ResourceRequest req, ResourceResponse res, 

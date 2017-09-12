@@ -33,8 +33,8 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.jasig.portlet.emailpreview.AccountSummary;
 import org.jasig.portlet.emailpreview.exception.MailAuthenticationException;
 import org.jasig.portlet.emailpreview.exception.MailTimeoutException;
@@ -59,7 +59,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 @RequestMapping("VIEW")
 public class EmailAccountSummaryController extends BaseEmailController {
 
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Log log = ExoLogger.getLogger(getClass());
 
     public static final String FORCE_REFRESH_PARAMETER = "forceRefresh";
 

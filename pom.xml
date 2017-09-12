@@ -45,8 +45,6 @@
     <properties>
         <jackson.version>2.7.3</jackson.version>
         <jaxb2basicsVersion>0.11.0</jaxb2basicsVersion>
-        <logbackVersion>1.1.7</logbackVersion>
-        <sl4jVersion>1.7.21</sl4jVersion>
         <spring.version>4.2.5.RELEASE</spring.version>
         <resource-server.version>1.0.43</resource-server.version>
         <filters.file>src/main/filters/email-preview.properties</filters.file>
@@ -81,39 +79,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>              
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.2</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jul-to-slf4j</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <!-- End of logging section -->
-
             <dependency>
                 <groupId>com.icegreen</groupId>
                 <artifactId>greenmail</artifactId>
