@@ -63,11 +63,12 @@ import org.jasig.portlet.emailpreview.service.ICredentialsProvider;
 import org.jasig.portlet.emailpreview.service.link.IEmailLinkService;
 import org.jasig.portlet.emailpreview.service.link.ILinkServiceRegistry;
 import org.jasig.portlet.emailpreview.util.MessageUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Marshaller;
+import org.springframework.stereotype.Component;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
@@ -88,7 +89,8 @@ import org.springframework.xml.transform.StringResult;
     // multi-step authentication process.  Another approach might be to alter the http client to use NTLM auth first.
     // See http://hc.apache.org/httpcomponents-client-ga/tutorial/html/authentication.html#ntlm
 
-public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto> {
+@Component
+public class ExchangeAccountDaoImpl implements IExchangeAccountDao {
 
     protected final static String ROOT_SOAP_ACTION = "http://schemas.microsoft.com/exchange/services/2006/messages/";
     protected final static String FIND_FOLDER_SOAP_ACTION = ROOT_SOAP_ACTION + "FindFolder";
@@ -100,7 +102,7 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
     protected final static QName REQUEST_SERVER_VERSION_QNAME = new QName(
             "http://schemas.microsoft.com/exchange/services/2006/types", "RequestServerVersion", "ns3");
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Log log = ExoLogger.getLogger(this.getClass());
     private final static ObjectFactory typeObjectFactory = new ObjectFactory();
     private Marshaller marshaller;
 
@@ -189,7 +191,6 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
     // getEmailSummaries
     // ----------------------------------------------------------
 
-    @Override
     public AccountSummary fetchAccountSummaryFromStore(MailStoreConfiguration config, String username,
                                                        String mailAccount, String folder, int start, int max) {
 
@@ -722,7 +723,7 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
                     actionCallback.doWithMessage(message);
                     SoapMessage soap = (SoapMessage) message;
                     SoapHeaderElement version = soap.getEnvelope().getHeader().addHeaderElement(REQUEST_SERVER_VERSION_QNAME);
-                    version.addAttribute(new QName("Version"), "Exchange2007_SP1");
+                    version.addAttribute(new QName("Version"), "Exchange2010");
                 }
 
             };
@@ -738,7 +739,6 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
                     log.debug("IOException attempting to display soap response", ex);
                 }
             }
-
             // use the request to retrieve data from the Exchange server
             BaseResponseMessageType response =
                     (BaseResponseMessageType) webServiceOperations.marshalSendAndReceive(uri, soapRequest, customCallback);
@@ -829,5 +829,4 @@ public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto
         itemIdType.setChangeKey((String) changeKey.getObjectValue());
         return itemIdType;
     }
-
 }

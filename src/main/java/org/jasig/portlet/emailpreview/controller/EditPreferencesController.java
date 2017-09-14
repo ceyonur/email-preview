@@ -33,6 +33,8 @@ import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
 import org.jasig.portlet.emailpreview.dao.MailPreferences;
 import org.jasig.portlet.emailpreview.mvc.Attribute;
@@ -41,8 +43,6 @@ import org.jasig.portlet.emailpreview.service.IServiceBroker;
 import org.jasig.portlet.emailpreview.service.auth.IAuthenticationService;
 import org.jasig.portlet.emailpreview.service.auth.IAuthenticationServiceRegistry;
 import org.jasig.portlet.emailpreview.service.auth.pp.PortletPreferencesCredentialsAuthenticationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,10 +58,7 @@ public final class EditPreferencesController extends BaseEmailController {
     private static final String DEFAULT_FOCUS_ON_PREVIEW = "true";
 
     private IAuthenticationServiceRegistry authServiceRegistry;
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Resource (name = "nonUserProtocols")
-    private Set<String> nonUserProtocols;
+    private final Log log = ExoLogger.getLogger(this.getClass());
 
     @RequestMapping
     public ModelAndView getAccountFormView(RenderRequest req) {
@@ -88,8 +85,7 @@ public final class EditPreferencesController extends BaseEmailController {
         model.put("disableInboxName", config.isReadOnly(req, MailPreferences.INBOX_NAME));
 
         // Available protocols
-        model.put("protocols", filterNonUserProtocols(serviceBroker.getSupportedProtocols()));
-        model.put("adminOnlyProtocol", protocolSetToNonUserProtocol(config.getProtocol()));
+        model.put("protocols", serviceBroker.getSupportedProtocols());
 
         // AuthN info
         Map<String,IAuthenticationService> authServices = new HashMap<String,IAuthenticationService>();
@@ -121,16 +117,6 @@ public final class EditPreferencesController extends BaseEmailController {
 
         return new ModelAndView("editPreferences", model);
 
-    }
-
-    private Set<String> filterNonUserProtocols(Set<String> protocols) {
-        HashSet filteredSet = new HashSet<String>(protocols);
-        filteredSet.removeAll(nonUserProtocols);
-        return filteredSet;
-    }
-
-    private boolean protocolSetToNonUserProtocol(String protocol) {
-        return nonUserProtocols.contains(protocol);
     }
 
     @RequestMapping(params = "action=updatePreferences")
@@ -309,6 +295,11 @@ public final class EditPreferencesController extends BaseEmailController {
             config.setMarkMessagesAsRead(form.getMarkMessagesAsRead());
             config.setAuthenticationServiceKey(form.getAuthenticationServiceKey());
             config.setInboxFolderName(form.getInboxFolderName());
+            
+            if (IServiceBroker.EXCHANGE_WEB_SERVICES.equals(config.getProtocol())
+                    && "INBOX".equals(config.getInboxFolderName())) {
+                config.setInboxFolderName("Inbox");
+            }
 
             // username/password
             if (PortletPreferencesCredentialsAuthenticationService.KEY.equals(form.getAuthenticationServiceKey())) {

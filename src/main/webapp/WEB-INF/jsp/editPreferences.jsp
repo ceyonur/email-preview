@@ -24,6 +24,7 @@
 <c:if test="${includeJQuery}">
     <script src="<rs:resourceURL value='/rs/jquery/1.8.3/jquery-1.8.3.min.js'/>" type="text/javascript"></script>
     <script src="<rs:resourceURL value='/rs/jqueryui/1.7.2/jquery-ui-1.7.2-v2.min.js'/>" type="text/javascript"></script>
+    <script src="<c:url value="/js/email-admin-config.js"/>" type="text/javascript"></script>
 </c:if>
 <script src="<rs:resourceURL value='/rs/fluid/1.1.3/js/fluid-all-1.1.3.min.js'/>" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/email.min.css"/>"/>
@@ -51,12 +52,6 @@
 
                 <div class="fieldset plt-email-fieldset-settings">
                     <!-- Don't show server configuration if the protocol is set to an admin-only protocol like Exchange Web Services -->
-                    <c:choose>
-                        <c:when test="${adminOnlyProtocol}">
-                            <div class="hidden">
-                                <input type="text" name="protocol" value="${form.protocol}"/>
-                        </c:when>
-                        <c:otherwise>
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">
                                     <spring:message code="editPreferences.emailSettings.serverProtocol"/>
@@ -69,8 +64,6 @@
                                     </select>
                                 </div>
                             </div> <!-- end .form-group div -->
-                        </c:otherwise>
-                    </c:choose>
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">
                             <spring:message code="editPreferences.emailSettings.serverName"/>
@@ -95,9 +88,6 @@
                             <input type="text" name="inboxName" id="plt-email-input-inbox-folder-name" class="form-control" title="<spring:message code="editPreferences.emailSettings.inboxFolderName.tooltip"/>" value="<c:out value="${form.inboxFolderName}"/>"/>
                         </div>
                     </div> <!-- end .form-group div -->
-                    <c:if test="${adminOnlyProtocol}">
-                        </div> <!-- end .fieldset .plt-email-fieldset-settings div -->
-                    </c:if>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
                             <div class="checkbox">

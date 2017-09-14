@@ -30,6 +30,7 @@ import org.jasig.portlet.emailpreview.AccountSummary;
 import org.jasig.portlet.emailpreview.EmailMessage;
 import org.jasig.portlet.emailpreview.EmailPreviewException;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
+import org.jasig.portlet.emailpreview.dao.IMailAccountDao;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
 
@@ -39,7 +40,7 @@ import org.owasp.validator.html.ScanException;
  * 
  * @author awills
  */
-interface IJavamailAccountDao {
+interface IJavamailAccountDao extends IMailAccountDao<Folder>{
 
     /**
      * Performs the heavy-lifting of {@link IEmailAccountService} but in a way 

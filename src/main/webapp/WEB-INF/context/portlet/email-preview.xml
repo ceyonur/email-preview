@@ -96,11 +96,6 @@
         </property>
     </bean>
 
-    <!-- List of the protocols that we do not display to users in the Edit Preferences page -->
-    <util:set id="nonUserProtocols">
-        <ref bean="ExchangeWebServices"/>
-    </util:set>
-
     <bean id="javamailAccountService"
           class="org.jasig.portlet.emailpreview.dao.EmailAccountService"
           p:dao-ref="javamailAccountDaoImpl">
@@ -110,7 +105,7 @@
      | EXCHANGE INTEGRATION SUPPORT
      +-->
     <bean id="exchangeAccountService" class="org.jasig.portlet.emailpreview.dao.EmailAccountService"
-          p:dao-ref="exchangeAccountDao">
+          p:dao-ref="exchangeAccountDaoImpl">
     </bean>
 
     <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
@@ -157,7 +152,7 @@
         p:marshaller-ref="marshaller" p:unmarshaller-ref="marshaller">
         <qualifier value="exchange" />
     </bean>
-    <bean id="exchangeAccountDao" class="org.jasig.portlet.emailpreview.dao.exchange.ExchangeAccountDaoImpl"
+    <bean id="exchangeAccountDaoImpl" class="org.jasig.portlet.emailpreview.dao.exchange.ExchangeAccountDaoImpl"
           p:webServiceOperations-ref="webServiceTemplate" p:marshaller-ref="marshaller"/>
 
     <bean id="autodiscoverWebServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate" scope="prototype"

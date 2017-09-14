@@ -193,15 +193,24 @@
                 <value>portletPreferences</value>
                 <read-only>true</read-only>
             </preference>
+            <preference>
+            	<name>exchangeAutodiscover</name>
+            	<value>false</value>
+            	<read-only>true</read-only>
+            </preference>
+            <preference>
+            	<name>exchangeDomain</name>
+            	<value>OZGURYAZILIM</value>
+            </preference>
             
             <preference> 
                 <name>welcomeTitle</name>  
-                <value>Email Preview</value>
+                <value>E-posta Önizleme</value>
             </preference>
             <preference> 
                 <name>welcomeInstructions</name>  
                 <value>
-            Welcome
+            Hoşgeldiniz
                 </value>
             </preference>
             
@@ -210,7 +219,7 @@
             -->
             <preference>
                 <name>helpTitle</name>
-                <value>Email Preview Help</value>
+                <value>E-posta Önizleme Yardım</value>
             </preference>
 
             <!-- 
@@ -222,9 +231,8 @@
             <preference>
                 <name>helpInstructions</name>
                 <value>
-&lt;p&gt;This portlet will let you see if you have new email and peek at messages in your IMAP- or POP-enabled mail account.&lt;/p&gt;
-&lt;p&gt;You can read the message, see if the message has any attachments, and delete unwanted messages. You &lt;em&gt;cannot&lt;/em&gt; send or reply to messages using this portlet.&lt;/p&gt;
-&lt;p&gt;For a fully-featured email client, click on the "Inbox" link.&lt;/p&gt;
+&lt;p&gt; Bu portlet, yeni e-postanız olup olmadığını ve IMAP veya POP özellikli e-posta hesabınızdaki iletileri görmenizi sağlar. &lt;/p&gt;
+&lt;p&gt; İletiyi okuyabilir, iletinin ek olup olmadığını görebilir ve istenmeyen iletileri silebilirsiniz. Bu portleti kullanarak mesaj gönderme veya cevaplama yapılamaz. &lt;/p&gt;
                 </value>
             </preference>   
 
@@ -257,7 +265,7 @@
             <!-- Body of message for unread count -->
             <preference>
                 <name>notification.entry.body.unread</name>
-                <value>You have {} unread email in your inbox.</value>
+                <value>Gelen kutunuzda {} okunmamış e-postanız var.</value>
             </preference>
             <!-- Source text to display in Notification -->
             <preference>

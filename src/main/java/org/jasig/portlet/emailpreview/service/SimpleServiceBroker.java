@@ -305,8 +305,7 @@ public class SimpleServiceBroker implements IServiceBroker {
 				allParams = authServ.getConfigurationParametersMap();
 			}
 			for (Map.Entry<String, String> entry : config.getAdditionalProperties().entrySet()) {
-				if (!prefs.isReadOnly(entry.getKey()) && (entry.getKey().equals(MailPreferences.PASSWORD.getKey())
-						|| entry.getKey().equals(MailPreferences.MAIL_ACCOUNT.getKey()))) {
+				if (!prefs.isReadOnly(entry.getKey())) {
 					String key = entry.getKey();
 					String value = entry.getValue();
 					ConfigurationParameter param = allParams.get(entry.getKey());
@@ -319,7 +318,13 @@ public class SimpleServiceBroker implements IServiceBroker {
 						}
 						value = stringEncryptionService.encrypt(value);
 					}
-					emailUserSettingNode.setProperty(PORTLET_NODETYPE_PREFIX + key, value);
+					if(entry.getKey().equals(MailPreferences.PASSWORD.getKey())
+						|| entry.getKey().equals(MailPreferences.MAIL_ACCOUNT.getKey())) {
+						emailUserSettingNode.setProperty(PORTLET_NODETYPE_PREFIX + key, value);
+					}
+					else{
+						prefs.setValue(key, value);
+					}
 				}
 			}
 			emailUserSettingNode.getSession().save();
@@ -340,7 +345,7 @@ public class SimpleServiceBroker implements IServiceBroker {
 			return null;
 		}
 		PropertyReader reader = new PropertyReader(emailUserSettingsNode);
-		String protocol = reader.string("portlet" + MailPreferences.PROTOCOL.getKey(), IServiceBroker.IMAPS);
+		String protocol = reader.string(PORTLET_NODETYPE_PREFIX + MailPreferences.PROTOCOL.getKey(), IServiceBroker.IMAPS);
 		return services.get(protocol);
 	}
 
