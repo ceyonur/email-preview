@@ -51,7 +51,7 @@
         <gmaven.runtime>1.5</gmaven.runtime> <!-- read by gmaven -->
         <cas.version>3.4.1</cas.version>
         <cas.version>3.2.1</cas.version>
-        <exoplatform.version>4.4.x-SNAPSHOT</exoplatform.version>
+        <exoplatform.version>4.4.3</exoplatform.version>
     </properties>
 
     <licenses>
