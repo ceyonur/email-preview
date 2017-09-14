@@ -30,8 +30,8 @@ import org.apache.http.auth.NTCredentials;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
 import org.jasig.portlet.emailpreview.service.ConfigurationParameter;
 import org.jasig.portlet.emailpreview.service.IServiceBroker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Description
@@ -45,7 +45,7 @@ public abstract class BaseCredentialsAuthenticationService implements IAuthentic
     protected List<ConfigurationParameter> userParameters = Collections.<ConfigurationParameter>emptyList();
     protected List<ConfigurationParameter> adminParameters = Collections.<ConfigurationParameter>emptyList();
     protected Map<String,ConfigurationParameter> configParams = Collections.<String, ConfigurationParameter>emptyMap();
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Log log = ExoLogger.getLogger(this.getClass());
 
     @Override
     public Map<String, ConfigurationParameter> getConfigurationParametersMap() {

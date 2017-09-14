@@ -23,8 +23,8 @@ import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.protocol.HttpContext;
 import org.jasig.portlet.emailpreview.EmailPreviewException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 @Component
 public class AutodiscoverRedirectStrategy extends LaxRedirectStrategy {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Log log = ExoLogger.getLogger(this.getClass());
 
     private List<String> unsafeUriExclusionPatterns;
     private List<Pattern> unsafeUriPatterns = new ArrayList<Pattern>();

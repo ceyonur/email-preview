@@ -26,8 +26,8 @@ import org.jasig.portlet.emailpreview.EmailPreviewException;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
 import org.jasig.portlet.emailpreview.caching.EWSEndpointUriCacheKeyGeneratorImpl;
 import org.jasig.portlet.emailpreview.caching.IEWSEndpoingUriCacheKeyGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Marshaller;
@@ -78,7 +78,7 @@ public class ExchangeAutoDiscoverDaoImpl implements IExchangeAutoDiscoverDao {
     private final static String INTERNAL_EWS_SERVER = "InternalEwsUrl";
     private final static String EXTERNAL_EWS_SERVER = "ExternalEwsUrl";
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Log log = ExoLogger.getLogger(this.getClass());
     private String EWSServerURI = "https://{server}/EWS/exchange.asmx";
     private final ObjectFactory objectFactory = new ObjectFactory();
     private Marshaller marshaller;

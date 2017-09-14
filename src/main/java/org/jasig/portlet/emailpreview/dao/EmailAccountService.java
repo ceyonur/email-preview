@@ -37,8 +37,8 @@ import org.jasig.portlet.emailpreview.service.ICredentialsProvider;
 import org.jasig.portlet.emailpreview.service.IServiceBroker;
 import org.jasig.portlet.emailpreview.service.auth.IAuthenticationService;
 import org.jasig.portlet.emailpreview.service.auth.IAuthenticationServiceRegistry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -50,7 +50,7 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class EmailAccountService implements IEmailAccountService {
 
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected final Log log = ExoLogger.getLogger(getClass());
 
     @Autowired(required = true)
     private IAuthenticationServiceRegistry authServiceRegistry;
@@ -107,7 +107,6 @@ public class EmailAccountService implements IEmailAccountService {
     @Override
     public AccountSummary getAccountSummary(PortletRequest req, int start, int max, boolean refresh,
                                             String folder) {
-
         String username = req.getRemoteUser();
         if (username == null) {
             throw new EmailPreviewException("Anonymous access is not supported");

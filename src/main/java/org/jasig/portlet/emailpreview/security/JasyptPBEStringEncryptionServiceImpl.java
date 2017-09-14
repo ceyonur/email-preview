@@ -21,8 +21,8 @@ package org.jasig.portlet.emailpreview.security;
 import org.jasypt.encryption.pbe.PBEStringEncryptor;
 import org.jasypt.exceptions.EncryptionInitializationException;
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
@@ -37,7 +37,7 @@ import javax.annotation.PostConstruct;
  * @author Jen Bourey
  */
 public class JasyptPBEStringEncryptionServiceImpl implements IStringEncryptionService {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Log logger = ExoLogger.getLogger(this.getClass());
 
     private PBEStringEncryptor encryptor = null;
     

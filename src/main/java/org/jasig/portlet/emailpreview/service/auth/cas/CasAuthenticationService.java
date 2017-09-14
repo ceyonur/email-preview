@@ -24,8 +24,8 @@ import org.jasig.cas.client.validation.Assertion;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
 import org.jasig.portlet.emailpreview.service.auth.BaseCredentialsAuthenticationService;
 import org.jasig.portlet.emailpreview.service.auth.SimplePasswordAuthenticator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 
 import javax.mail.Authenticator;
 import javax.portlet.PortletRequest;
@@ -33,7 +33,7 @@ import javax.portlet.PortletSession;
 
 public class CasAuthenticationService extends BaseCredentialsAuthenticationService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Log log = ExoLogger.getLogger(getClass());
     
     protected String key = "cas";
     

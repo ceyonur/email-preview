@@ -38,8 +38,8 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -91,7 +91,7 @@ import java.util.Properties;
  * @author James Wennmacher, jwennmacher@unicon.net
  */
 @Component
-public final class JavamailAccountDaoImpl implements IMailAccountDao {
+public final class JavamailAccountDaoImpl implements IJavamailAccountDao {
 
     private static final String CONTENT_TYPE_ATTACHMENTS_PATTERN = "multipart/mixed;";
     private static final String INTERNET_ADDRESS_TYPE = "rfc822";
@@ -112,7 +112,7 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
     private ApplicationContext ctx;
     private Policy policy;
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Log log = ExoLogger.getLogger(getClass());
 
     public void setCredentialsProvider(ICredentialsProvider credentialsProvider) {
         this.credentialsProvider = credentialsProvider;
@@ -185,16 +185,16 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
             // occurrence, it causes space issues.
             return new AccountSummary(mae);
         } catch (MessagingException me) {
-            log.error("Exception encountered while retrieving account info", me);
+            log.error("Exception encountered while retrieving account info", me.getMessage(), me);
             throw new EmailPreviewException(me);
         } catch (IOException e) {
-            log.error("Exception encountered while retrieving account info", e);
+            log.error("Exception encountered while retrieving account info", e.getMessage(), e);
             throw new EmailPreviewException(e);
         } catch (ScanException e) {
-            log.error("Exception encountered while retrieving account info", e);
+            log.error("Exception encountered while retrieving account info", e.getMessage(), e);
             throw new EmailPreviewException(e);
         } catch (PolicyException e) {
-            log.error("Exception encountered while retrieving account info", e);
+            log.error("Exception encountered while retrieving account info", e.getMessage(), e);
             throw new EmailPreviewException(e);
         } finally {
             if ( inbox != null ) {
@@ -212,7 +212,7 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
         }
     }
 
-    private Session openMailSession(MailStoreConfiguration config, Authenticator auth) {
+    public Session openMailSession(MailStoreConfiguration config, Authenticator auth) {
 
         // Assertions.
         if (config == null) {
@@ -317,7 +317,7 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
         return null;
     }
 
-    private Folder getUserInbox(Session session, String folderName)
+    public Folder getUserInbox(Session session, String folderName)
             throws MessagingException {
 
         // Assertions.
@@ -345,7 +345,7 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
 
     }
 
-    private EmailMessage wrapMessage(Message msg, boolean populateContent, Session session)
+    public EmailMessage wrapMessage(Message msg, boolean populateContent, Session session)
             throws MessagingException, IOException, ScanException, PolicyException {
 
         // Prepare subject
@@ -608,11 +608,6 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
             inbox.open(Folder.READ_WRITE);
 
             Message[] msgs = ((UIDFolder) inbox).getMessagesByUID(getMessageUidsAsLong(uuids));
-            
-            for(int i = 0; i < msgs.length;i++){
-            	System.out.println(msgs[i].getSubject());
-            }
-
             inbox.setFlags(msgs, new Flags(Flag.SEEN), read);
 
             return true;  // Indicate success
@@ -730,5 +725,11 @@ public final class JavamailAccountDaoImpl implements IMailAccountDao {
             }
         }
         return StringUtils.join(recipientsList, "; ").replaceAll("<","&lt;").replaceAll(">","&gt;");
+	}
+
+	public AccountSummary fetchAccountSummaryFromStore(MailStoreConfiguration storeConfig, Authenticator auth,
+			String username, String mailAccount, int start, int max, boolean refresh) throws EmailPreviewException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
