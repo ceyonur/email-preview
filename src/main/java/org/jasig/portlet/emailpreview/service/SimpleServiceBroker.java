@@ -166,48 +166,46 @@ public class SimpleServiceBroker implements IServiceBroker {
 			if (authServ != null) {
 				allParams = authServ.getConfigurationParametersMap();
 			}
-
-			PropertyIterator propertiesIt = emailUserSettingsNode.getProperties(PORTLET_NODETYPE_PREFIX + "*");
-			while (propertiesIt.hasNext()) {
-				Property prop = (Property) propertiesIt.next();
-				String key = prop.getName().replaceFirst(PORTLET_NODETYPE_PREFIX, "");
-				if (!RESERVED_PROPERTIES.contains(key) && !prop.getString().isEmpty()) {
-					String value = prop.getString();
-
-					// AuthN properties may require encryption
-					ConfigurationParameter param = allParams.get(key);
-					if (param != null && param.isEncryptionRequired()) {
-						if (stringEncryptionService == null) {
-							final String msg = "The following setting requires "
-									+ "encryption but the 'stringEncryptionService' " + "bean is not configured:  "
-									+ key;
-							throw new IllegalStateException(msg);
+			
+			for (MailPreferences mp : MailPreferences.values()) {
+				String key = mp.getKey();
+				String value = "";
+				if (key.equals(MailPreferences.PASSWORD.getKey())
+						|| key.equals(MailPreferences.MAIL_ACCOUNT.getKey())) {
+					value = reader.string(PORTLET_NODETYPE_PREFIX + key, "");
+				} else {
+					value = prefs.getValue(key, "");
+				}
+				if (!RESERVED_PROPERTIES.contains(key) && !value.isEmpty()) {
+					if (key.startsWith("mail.")) {
+						config.getJavaMailProperties().put(key, value);
+					} else {
+						// AuthN properties may require encryption
+						ConfigurationParameter param = allParams.get(key);
+						if (param != null && param.isEncryptionRequired()) {
+							if (stringEncryptionService == null) {
+								final String msg = "The following setting requires "
+										+ "encryption but the 'stringEncryptionService' " + "bean is not configured:  "
+										+ key;
+								throw new IllegalStateException(msg);
+							}
+							try {
+								value = stringEncryptionService.decrypt(value);
+							} catch (EncryptionOperationNotPossibleException eonpe) {
+								log.warn("Failed to decrypt a configuration "
+										+ "parameter -- did the encrytion password " + "change?  (it shouldn't)",
+										eonpe);
+								// provide a dummy value for safety (a blank
+								// value
+								// would make the portlet seem unconfigured)
+								value = "xxx";
+							}
 						}
-						try {
-							value = stringEncryptionService.decrypt(value);
-						} catch (EncryptionOperationNotPossibleException eonpe) {
-							log.warn("Failed to decrypt a configuration " + "parameter -- did the encrytion password "
-									+ "change?  (it shouldn't)", eonpe);
-							// provide a dummy value for safety (a blank value
-							// would make the portlet seem unconfigured)
-							value = "xxx";
-						}
-
 						config.getAdditionalProperties().put(key, value);
 					}
 				}
 			}
-			
-			Map<String, String[]> preferenceMap = prefs.getMap();
-			for (Map.Entry<String, String[]> entry : preferenceMap.entrySet()) {
-				String key = entry.getKey();
-				if (!RESERVED_PROPERTIES.contains(key) && entry.getValue().length > 0) {
-					String value = entry.getValue()[0];
-					if (key.startsWith("mail.")) {
-						config.getJavaMailProperties().put(key, value);
-					}
-				}
-			}
+
 			return config;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -318,11 +316,10 @@ public class SimpleServiceBroker implements IServiceBroker {
 						}
 						value = stringEncryptionService.encrypt(value);
 					}
-					if(entry.getKey().equals(MailPreferences.PASSWORD.getKey())
-						|| entry.getKey().equals(MailPreferences.MAIL_ACCOUNT.getKey())) {
+					if (entry.getKey().equals(MailPreferences.PASSWORD.getKey())
+							|| entry.getKey().equals(MailPreferences.MAIL_ACCOUNT.getKey())) {
 						emailUserSettingNode.setProperty(PORTLET_NODETYPE_PREFIX + key, value);
-					}
-					else{
+					} else {
 						prefs.setValue(key, value);
 					}
 				}
@@ -345,7 +342,7 @@ public class SimpleServiceBroker implements IServiceBroker {
 			return null;
 		}
 		PropertyReader reader = new PropertyReader(emailUserSettingsNode);
-		String protocol = reader.string(PORTLET_NODETYPE_PREFIX + MailPreferences.PROTOCOL.getKey(), IServiceBroker.IMAPS);
+		String protocol = reader.string(PORTLET_NODETYPE_PREFIX + MailPreferences.PROTOCOL.getKey(),IServiceBroker.IMAPS);
 		return services.get(protocol);
 	}
 
