@@ -25,7 +25,6 @@ import org.jasig.portlet.emailpreview.EmailMessage;
 import org.jasig.portlet.emailpreview.EmailPreviewException;
 import org.jasig.portlet.emailpreview.ExchangeFolderDto;
 import org.jasig.portlet.emailpreview.MailStoreConfiguration;
-import org.jasig.portlet.emailpreview.dao.IMailAccountDao;
 
 /**
  * This interface exists to work with the caching annotations.  This interface 
@@ -33,6 +32,57 @@ import org.jasig.portlet.emailpreview.dao.IMailAccountDao;
  * 
  * @author James Wennmacher, jwennmacher@unicon.net
  */
-interface IExchangeAccountDao extends IMailAccountDao<ExchangeFolderDto>{
+interface IExchangeAccountDao {
+
+    void clearAccountSummaryCache(String username, String mailAccount);
+
+    /**
+     * Performs the heavy-lifting of {@link IEmailAccountService} but in a way
+     * that exposes Exchange implementation details.  Caching annotations can be
+     * wrapped around these methods.
+     *
+     *
+     * @param storeConfig
+     * @param username Portal username
+     * @param mailAccount Email account
+     * @param start Index of the first expected message
+     * @param max Maximum size of the collection of messages in the
+     * returned {@link org.jasig.portlet.emailpreview.AccountSummary} object
+     * @param folder
+     * @return A representation of mail account details suitable for displaying
+     * in the view
+     * @throws org.jasig.portlet.emailpreview.EmailPreviewException
+     */
+    AccountSummary fetchAccountSummaryFromStore(MailStoreConfiguration storeConfig,
+                                                String username, String mailAccount, int start,
+                                                int max, String folder) throws EmailPreviewException;
+
+
+    /**
+     * Gets a message from the Exchange server.
+     * @param uuid Message
+     * @param storeConfig mail configuration
+     * @return message
+     */
+    EmailMessage getMessage(MailStoreConfiguration storeConfig, String uuid);
+
+    /**
+     * Delete the list of messages from Exchange.
+     * @param uuids uuids if the messages to delete
+     */
+    void deleteMessages(MailStoreConfiguration storeConfig, String[] uuids);
+
+    /**
+     * Sets the isRead status of the indicated messages to the indicated value.
+     * @param uuids uuids of the messages to change the read status of
+     * @param read true to indicate message has been read
+     */
+    void setMessageReadStatus(MailStoreConfiguration storeConfig, String[] uuids, boolean read);
+
+    /**
+     * Gets all the user's inbox folders.
+     * @return List of user's folders.
+     */
+    List<ExchangeFolderDto> getAllUserInboxFolders(MailStoreConfiguration storeConfig);
 
 }

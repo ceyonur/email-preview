@@ -40,7 +40,7 @@ import org.owasp.validator.html.ScanException;
  * 
  * @author awills
  */
-interface IJavamailAccountDao extends IMailAccountDao<Folder>{
+interface IJavamailAccountDao{
 
     /**
      * Performs the heavy-lifting of {@link IEmailAccountService} but in a way 

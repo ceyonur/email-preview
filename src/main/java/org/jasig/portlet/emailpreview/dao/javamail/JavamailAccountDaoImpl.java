@@ -91,7 +91,7 @@ import java.util.Properties;
  * @author James Wennmacher, jwennmacher@unicon.net
  */
 @Component
-public final class JavamailAccountDaoImpl implements IJavamailAccountDao {
+public final class JavamailAccountDaoImpl implements IMailAccountDao {
 
     private static final String CONTENT_TYPE_ATTACHMENTS_PATTERN = "multipart/mixed;";
     private static final String INTERNET_ADDRESS_TYPE = "rfc822";

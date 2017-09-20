@@ -90,7 +90,7 @@ import org.springframework.xml.transform.StringResult;
     // See http://hc.apache.org/httpcomponents-client-ga/tutorial/html/authentication.html#ntlm
 
 @Component
-public class ExchangeAccountDaoImpl implements IExchangeAccountDao {
+public class ExchangeAccountDaoImpl implements IMailAccountDao<ExchangeFolderDto> {
 
     protected final static String ROOT_SOAP_ACTION = "http://schemas.microsoft.com/exchange/services/2006/messages/";
     protected final static String FIND_FOLDER_SOAP_ACTION = ROOT_SOAP_ACTION + "FindFolder";
